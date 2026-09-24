@@ -21,6 +21,24 @@ npm run lint
 `npm test` runs the TypeScript game modules directly under Node 24, which
 strips the types itself, so the tests need no test framework or build step.
 
+## Offline / installable (PWA)
+
+The game can be installed as an app and runs with no network at all after the
+first visit. [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/) creates a
+service worker that precaches the whole build: code, styles, card art, icons
+and fonts. The fonts are bundled locally from `@fontsource` (see
+`src/fonts.ts`), so nothing is loaded from Google Fonts. Settings live in
+`vite.config.ts`.
+
+- The service worker only runs in production builds. To try it, run
+  `npm run build && npm run preview`, then open the preview URL.
+- New versions install themselves (`registerType: 'autoUpdate'`) and take
+  over on the next load. Updating mid-game is safe, because the game saves
+  after every card.
+- The icons in `public/` (`pwa-192x192.png`, `pwa-512x512.png`,
+  `maskable-512x512.png`) are made from `favicon.svg`. The maskable icon has
+  extra padding so Android's round crop doesn't cut the spade.
+
 ## Layout
 
 | Path | What it is |
